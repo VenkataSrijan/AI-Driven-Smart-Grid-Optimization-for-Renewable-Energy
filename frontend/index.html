@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Grid AI Agent Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="gradient-overlay"></div>
+    
+    <div class="container">
+        <header class="dashboard-header animate__animated animate__fadeInDown">
+            <div class="logo-container">
+                <svg class="logo-icon" viewBox="0 0 24 24">
+                    <path d="M12,3L2,12L5,20H19L22,12L12,3Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12,7L7,12H17L12,7Z" fill="currentColor"/>
+                </svg>
+                <h1>Smart Grid <span>AI Control</span></h1>
+            </div>
+            <div class="header-decoration">
+                <div class="decoration-circle"></div>
+                <div class="decoration-circle"></div>
+                <div class="decoration-circle"></div>
+            </div>
+        </header>
+
+        <main>
+            <section class="input-section card animate__animated animate__fadeIn animate__delay-1s">
+                <div class="section-header">
+                    <h2>Current Grid State</h2>
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="batteryCharge">Battery Charge (kWh)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="batteryCharge" value="250" step="0.1">
+                            <span class="input-icon"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="netEnergy">Net Energy (kWh)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="netEnergy" value="10" step="0.1">
+                            <span class="input-icon"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="avgFutureNetEnergy">Avg Future Net (kWh)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="avgFutureNetEnergy" value="5" step="0.1">
+                            <span class="input-icon"></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="timeStep">Time Step (0-47)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="timeStep" value="10" min="0" max="47">
+                            <span class="input-icon"></span>
+                        </div>
+                    </div>
+                </div>
+                <button id="getActionBtn" class="btn-primary animate__animated animate__pulse animate__infinite">
+                    <span>Get AI Agent Action</span>
+                    <svg viewBox="0 0 24 24" class="btn-icon">
+                        <path d="M13.04 3.5L9.53 6.61L8.04 7.84L6.5 9.03V3.25C6.5 2.56 7.06 2 7.75 2H11.5V10.22L9.71 11.74L8.04 13.04L4.5 16.04C4.03 16.4 4.03 17.1 4.5 17.46L7.96 20.46L11.04 18.3L13.04 16.5L15.96 14.06L19.5 11.04C19.97 10.68 19.97 9.98 19.5 9.62L13.04 3.5Z"/>
+                    </svg>
+                </button>
+            </section>
+
+            <div class="output-grid">
+                <section class="output-section card animate__animated animate__fadeIn animate__delay-2s">
+                    <div class="section-header">
+                        <h2>AI Recommendation</h2>
+                        <div class="section-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="output-content">
+                        <div class="output-item">
+                            <div class="output-label">Action:</div>
+                            <div id="actionDisplay" class="output-value">Waiting for input...</div>
+                        </div>
+                        <div class="output-item">
+                            <div class="output-label">Description:</div>
+                            <div id="descriptionDisplay" class="output-value"></div>
+                        </div>
+                        <div class="output-item">
+                            <div class="output-label">Predicted Q-Values:</div>
+                            <pre id="qValuesDisplay" class="output-value"></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="simulation-section card animate__animated animate__fadeIn animate__delay-3s">
+                    <div class="section-header">
+                        <h2>Full Episode Simulation</h2>
+                        <div class="section-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M14,12L10,8V16M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <button id="runSimulationBtn" class="btn-secondary">
+                        <span>Run Full Day Simulation (48 Steps)</span>
+                        <svg viewBox="0 0 24 24" class="btn-icon">
+                            <path d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                    </button>
+                    <div id="simulationStatus" class="status-message"></div>
+                    <div class="isometric-grid">
+                        <div class="cube"></div>
+                        <div class="cube"></div>
+                        <div class="cube"></div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="charts-section animate__animated animate__fadeIn animate__delay-4s">
+                <div class="section-header">
+                    <h2>Simulation Visualizations</h2>
+                    <div class="section-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3.5,18.5L9.5,12.5L13.5,16.5L22,6.92L20.59,5.5L13.5,13.5L9.5,9.5L2,17L3.5,18.5Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="chart-grid">
+                    <div class="chart-container card">
+                        <div class="chart-header">
+                            <h3>Battery Charge Over Time</h3>
+                            <div class="chart-icon">🔋</div>
+                        </div>
+                        <canvas id="batteryChart"></canvas>
+                    </div>
+                    <div class="chart-container card">
+                        <div class="chart-header">
+                            <h3>Energy Flow Over Time</h3>
+                            <div class="chart-icon"></div>
+                        </div>
+                        <canvas id="energyFlowChart"></canvas>
+                    </div>
+                    <div class="chart-container card">
+                        <div class="chart-header">
+                            <h3>Unmet Demand & Wasted Energy</h3>
+                            <div class="chart-icon"></div>
+                        </div>
+                        <canvas id="lossChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="threejs-container"></div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
